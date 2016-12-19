@@ -1,0 +1,33 @@
+body {
+	/* hide everything outside of body */
+	/* overflow:  hidden; */ /* chopping off everything outside of the body */
+}
+
+
+#pages {
+	width: 200vw; /* viewport width */
+	/* makes this twice the width of the viewport */
+}
+
+#page1, #page2 {
+	width: 100vw;
+	float:  left;
+	height: 100vh; /*viewport height */
+	position: relative;
+	transition: all 3s;
+}
+
+#arrow1, #arrow2 {
+	position: absolute;
+	top:  50%;
+	background-color: blue;
+	color:  white;
+}
+
+#arrow1 {
+	right:  0px;
+}
+
+#arrow2 {
+	left:  0px;
+}
