@@ -1,14 +1,21 @@
 // 1. Make JSON into a function so you can call it whenever you need to.  //DONE
-// 2. Instead of auto saving their symbols, you give them a save button.  (integrated into retrieve?)
+// 2. Instead of auto saving their symbols, you give them a save button.  //DONE
 // 3. Retrieve button?  //DONE
 // 4. Put bookmarks on the side of page 2.
-// 5. Automatically refresh all stocks every x seconds.
+// 5. Automatically refresh all stocks every x seconds. //attempted
 // 6. Keep the watchlist stocks in a separate table from searched stocks.
 // 7. Keep a "recent" localStorage var, and a "saved" localStorage var
 // 8. Pair up with Blackjack somehow
 
 //wait for the DOM!!!
 $(document).ready(function() {
+
+	//set timer to refresh stock values on page load
+	// setInterval(function() {
+	// 	$('#stock-body').load(ajaxRequest)}, 2000);
+
+	//all stocks searched for by user 
+	var searchedStocks = [];
 
 	$('#arrow1').click(function() {
 		$('#page1,#page2').css({
@@ -26,6 +33,7 @@ $(document).ready(function() {
 	var userStocksSaved = localStorage.getItem('userStocks');
 	$('.btn-warning').click(function() { //retrieves localStorage items upon clicking "Retrieve"
 		ajaxRequest(userStocksSaved);
+		searchedStocks.push(userStocksSaved);  //pushes previous search onto searchedStocks
 	});
 
 
@@ -37,10 +45,19 @@ $(document).ready(function() {
 		//get whatever the user typed out of the input and store it in symbol
 		var symbol = $('#symbol').val(); //gets the value of the symbol input on enter or click
 
-		//localStorage takes two parameters - a new variable and what to set it to
-		localStorage.setItem("userStocks", symbol); //userStocks is the new variable, symbol is what it's set to (each time they click submit, this is stored - if they navigate from the page, it will retrieve what they had and load it)
+		//pushes current search onto searchedStocks array in case they decide to save later
+		searchedStocks.push(symbol);
+
 		ajaxRequest(symbol);
+
 	 });
+
+	//allows user to save all items on the page
+	$('.btn-success').click(function() {
+		console.log('test');
+		//localStorage takes two parameters - a new variable and what to set it to
+		localStorage.setItem("userStocks", searchedStocks);
+	})
 
 
 
@@ -82,7 +99,7 @@ $(document).ready(function() {
 		//building new HTML 
 		var newHTML = '';
 		newHTML += '<tr>'; //targeting entire table body
-			newHTML += '<td>'+stockInfo.Symbol+'</td>';
+			newHTML += '<td>'+stockInfo.Symbol+ '</td>';
 			newHTML += '<td>'+stockInfo.Name+'</td>';
 			newHTML += '<td>'+stockInfo.Ask+'</td>';
 			newHTML += '<td>'+stockInfo.Bid+'</td>';
