@@ -1,8 +1,8 @@
 // 1. Make JSON into a function so you can call it whenever you need to.  //DONE
 // 2. Instead of auto saving their symbols, you give them a save button.  //DONE
 // 3. Retrieve button?  //DONE
-// 4. Put bookmarks on the side of page 2.
-// 5. Automatically refresh all stocks every x seconds. //attempted
+// 4. Put bookmarks on the side of page 2. //ask
+// 5. Automatically refresh all stocks every x seconds. //attempted (flashes; console shows a property error)
 // 6. Keep the watchlist stocks in a separate table from searched stocks.
 // 7. Keep a "recent" localStorage var, and a "saved" localStorage var
 // 8. Pair up with Blackjack somehow
@@ -35,7 +35,7 @@ $(document).ready(function() {
 	var userStocksSaved = localStorage.getItem('userStocks');
 	$('.btn-warning').click(function() { //retrieves localStorage items upon clicking "Retrieve"
 		ajaxRequest(userStocksSaved);
-		searchedStocks.push(userStocksSaved);  //pushes previous search onto searchedStocks
+		searchedStocks.push(userStocksSaved);  //pushes previous search (localStorage) onto searchedStocks
 	});
 
 
@@ -56,18 +56,17 @@ $(document).ready(function() {
 
 	//allows user to save all items on the page
 	$('.btn-success').click(function() {
-		console.log('test');
+		// console.log('test');
 		//localStorage takes two parameters - a new variable and what to set it to
 		localStorage.setItem("userStocks", searchedStocks);
 	})
 
-	/*
-		new function
-			clear the table rows
-			loop through searchStocks, and do the following...
-				call ajaxrequest(stock)
-	*/
+	
 
+// FUNCTIONS
+
+
+	//clears table rows, loops through searchedStocks, and calls ajaxRequest to return updated stocks within setInterval
 	function refreshStocks() {
 		$('#stock-body').html('');
 		for (var i = 0; i < searchedStocks.length; i++) {
