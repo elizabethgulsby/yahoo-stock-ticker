@@ -11,8 +11,10 @@
 $(document).ready(function() {
 
 	//set timer to refresh stock values on page load
-	// setInterval(function() {
-	// 	$('#stock-body').load(ajaxRequest)}, 2000);
+	setInterval(
+		function() {
+			$('#stock-body').load(refreshStocks())
+		}, 3000);
 
 	//all stocks searched for by user 
 	var searchedStocks = [];
@@ -59,8 +61,19 @@ $(document).ready(function() {
 		localStorage.setItem("userStocks", searchedStocks);
 	})
 
+	/*
+		new function
+			clear the table rows
+			loop through searchStocks, and do the following...
+				call ajaxrequest(stock)
+	*/
 
-
+	function refreshStocks() {
+		$('#stock-body').html('');
+		for (var i = 0; i < searchedStocks.length; i++) {
+			ajaxRequest(searchedStocks[i]);
+		}
+	}
 
 	function ajaxRequest(value) {
 
@@ -103,7 +116,8 @@ $(document).ready(function() {
 			newHTML += '<td>'+stockInfo.Name+'</td>';
 			newHTML += '<td>'+stockInfo.Ask+'</td>';
 			newHTML += '<td>'+stockInfo.Bid+'</td>';
-			newHTML += '<td class="'+classChange+'">'+stockInfo.Change+'</td>';
+			//uniquely name the column that you want to be refreshed so that it can be referenced by the stock id
+			newHTML += '<td id="daily-change-' + stockInfo.Symbol + '" class="'+classChange+'">'+stockInfo.Change+'</td>';
 		newHTML += '</tr>';
 		$('#stock-body').append(newHTML);  //change HTML from what's currently there to what we just constructed above (based on what was inside of stockInfo, which is what we pulled back from AJAX method);
 		}
